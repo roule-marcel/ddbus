@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CHANNEL=$1
+PORT=$2
+
+if [ -z "$CHANNEL" -o -z "$PORT" ]; then
+	echo "Usage p2p-bus <channel> <port>" >&2; exit 1
+fi
+
+dbus-listen in_$CHANNEL | tee >(pcat $PORT | tee >(dbus-talk $CHANNEL))
+

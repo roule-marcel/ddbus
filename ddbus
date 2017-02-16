@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CHANNEL=$1
+
+if [ -z "$CHANNEL" ]; then
+	echo "Usage : ddbus <channel>" >&2
+	exit 1
+fi
+
+tee >(dbus-talk in_$CHANNEL) >(dbus-talk $CHANNEL) | dbus-listen $CHANNEL
