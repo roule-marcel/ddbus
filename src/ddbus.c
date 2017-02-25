@@ -6,6 +6,8 @@
  */
 
 
+#include "ddbus.h"
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -17,7 +19,6 @@
 #include <sys/un.h>
 #include <pthread.h>
 #include "udp.h"
-#include "pubsub.h"
 
 typedef struct pubsub_t {
 	pthread_t th;
@@ -47,6 +48,9 @@ void* thread_read(void* _p) {
 extern "C" {
 
 int ddbus_open(void (*callback) (const char*)) {
+
+	system("ddbusd start");
+
 	pubsub_t* p = (pubsub_t*)malloc(sizeof(pubsub_t));
 	struct sockaddr_un addr;
 
@@ -55,9 +59,9 @@ int ddbus_open(void (*callback) (const char*)) {
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	strcpy(addr.sun_path, "/run/lock/pubsub.sock");
+	strcpy(addr.sun_path, "/run/lock/ddbusd.sock");
 
-	if(connect (p->fd, (const struct sockaddr *) &addr, sizeof(struct sockaddr_un)) == -1) ERROR("Couldn't connect to /run/lock/pubsub.sock\n");
+	if(connect (p->fd, (const struct sockaddr *) &addr, sizeof(struct sockaddr_un)) == -1) ERROR("Couldn't connect to /run/lock/ddbusd.sock\n");
 
 	pthread_create(&p->th, NULL, thread_read, p);
 	return p->fd;

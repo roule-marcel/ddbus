@@ -92,9 +92,9 @@ void* thread_local_server (void*) {
 
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
-	strcpy(addr.sun_path, "/run/lock/pubsub.sock");
+	strcpy(addr.sun_path, "/run/lock/ddbusd.sock");
 
-	if (bind(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) ERROR("Can't bind to /run/lock/pubsub.sock");
+	if (bind(fd, (struct sockaddr*)&addr, sizeof(addr)) == -1) ERROR("Can't bind to /run/lock/ddbusd.sock");
 	listen(fd, 20);
 	int i=0;
 	for(i=0; i<1024; i++) connections[i].fd = -1;
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
 
 	if(argc <= 1) ERROR("USAGE : %s <broadcast_ip>\n", argv[0]);
 
-	unlink("/run/lock/pubsub.sock");
+	unlink("/run/lock/ddbusd.sock");
 
 	// Create Local server
 	pthread_create(&th_local_server, NULL, thread_local_server, NULL);

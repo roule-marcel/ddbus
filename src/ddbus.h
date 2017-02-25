@@ -5,8 +5,8 @@
  *      Author: jfellus
  */
 
-#ifndef PUBSUB_H_
-#define PUBSUB_H_
+#ifndef DDBUS_H_
+#define DDBUS_H_
 
 
 extern "C" {
@@ -20,4 +20,4 @@ int ddbus_open(void (*callback) (const char*));
 
 }
 
-#endif /* PUBSUB_H_ */
+#endif /* DDBUS_H_ */

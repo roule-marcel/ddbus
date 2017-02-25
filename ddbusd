@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [ "$1" == "start" ]; then 
+	if [ -f "/run/lock/ddbusd.lock" ]; then
+		echo "Daemon already started" >&2
+		exit 1
+	else
+		nohup ddbusd ${@:2} >/dev/null 2>&1 &
+		exit 0
+	fi
+fi
+if [ "$1" == "stop" ]; then
+	if [ ! -f "/run/lock/ddbusd.lock" ]; then
+		echo "Daemon not running" >&2
+		exit 1
+	else
+		kill -TERM $(cat /run/lock/ddbusd.lock)
+		rm -rf /run/lock/ddbusd.lock
+		exit 0
+	fi
+fi
+if [ "$1" == "restart" ]; then
+	$0 stop 2>/dev/null
+	$0 start ${@:2}
+	exit 0
+fi
+
+
+if [ -f "/run/lock/ddbusd.lock" ]; then
+	echo "Daemon already started" >&2
+	exit 1
+fi
+
+ddbusdd $* &
+echo $! > /run/lock/ddbusd.lock
+wait

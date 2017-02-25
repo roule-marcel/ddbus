@@ -1,22 +1,22 @@
 SOURCES:=$(shell find src/ -maxdepth 1 -type f -name '*.c')
 OBJECTS:=$(SOURCES:src/%.c=bin/%.o)
 
-all: libpubsub.so pubsubdd pubsub-test
+all: libddbus.so ddbusdd ddbus-test
 
 install:
-	cp pubsubdd /usr/bin
-	cp pubsubd /usr/bin
-	cp libpubsub.so /usr/lib
-	cp pubsub-test /usr/bin
+	cp ddbusdd /usr/bin
+	cp ddbusd /usr/bin
+	cp libddbus.so /usr/lib
+	cp ddbus-test /usr/bin
 
-libpubsub.so: $(OBJECTS)
+libddbus.so: $(OBJECTS)
 	g++ -shared -o $@ $^ -pthread
 	
-pubsub-test: bin/test/test.o
-	g++ -o $@ $^ -pthread -lpubsub -L.
+ddbus-test: bin/test/test.o
+	g++ -o $@ $^ -pthread -lddbus -L.
 
-pubsubdd: bin/pubsubd/main.o
-	g++ -o $@ $^ -pthread -lpubsub -L.
+ddbusdd: bin/ddbusd/main.o
+	g++ -o $@ $^ -pthread -lddbus -L.
 
 bin/%.o: src/%.c
 	mkdir -p `dirname $@`
@@ -25,5 +25,5 @@ bin/%.o: src/%.c
 clean:
 	rm -rf bin
 	rm -f *.so
-	rm -f pubsubdd
-	rm -f pubsub-test
+	rm -f ddbusdd
+	rm -f ddbus-test
