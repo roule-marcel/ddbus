@@ -49,7 +49,7 @@ extern "C" {
 
 int ddbus_open(void (*callback) (const char*)) {
 
-	system("ddbusd start");
+	system("ddbusd start >/dev/null 2>&1");
 
 	pubsub_t* p = (pubsub_t*)malloc(sizeof(pubsub_t));
 	struct sockaddr_un addr;

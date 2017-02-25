@@ -1,0 +1,7 @@
+/.cproject
+/.project
+/bin/
+/*.so
+/ddbus-test
+/ddbusdd
+/.*

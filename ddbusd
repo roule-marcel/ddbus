@@ -6,6 +6,7 @@ if [ "$1" == "start" ]; then
 		exit 1
 	else
 		nohup ddbusd ${@:2} >/dev/null 2>&1 &
+		sleep 0.5
 		exit 0
 	fi
 fi
@@ -31,6 +32,15 @@ if [ -f "/run/lock/ddbusd.lock" ]; then
 	exit 1
 fi
 
-ddbusdd $* &
+BROADCAST=$1
+if [ -z "$BROADCAST"]; then
+	BROADCAST=`cat /etc/ddbus/broadcast 2>/dev/null`
+fi
+if [ -z "$BROADCAST"]; then
+	BROADCAST=255.255.255.255
+fi
+
+ddbusdd $BROADCAST &
 echo $! > /run/lock/ddbusd.lock
 wait
+rm -rf /run/lock/ddbusd.lock
