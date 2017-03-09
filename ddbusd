@@ -33,10 +33,10 @@ if [ -f "/run/lock/ddbusd.lock" ]; then
 fi
 
 BROADCAST=$1
-if [ -z "$BROADCAST"]; then
+if [ -z "$BROADCAST" ]; then
 	BROADCAST=`cat /etc/ddbus/broadcast 2>/dev/null`
 fi
-if [ -z "$BROADCAST"]; then
+if [ -z "$BROADCAST" ]; then
 	BROADCAST=255.255.255.255
 fi
 

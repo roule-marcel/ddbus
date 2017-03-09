@@ -45,13 +45,13 @@ void* thread_read(void* _p) {
 	return 0;
 }
 
-extern "C" {
+static int ddbusd_start() {
+	system("ddbusd start >/dev/null 2>&1");
+}
 
 int ddbus_open(void (*callback) (const char*)) {
-
-	system("ddbusd start >/dev/null 2>&1");
-
-	pubsub_t* p = (pubsub_t*)malloc(sizeof(pubsub_t));
+	ddbusd_start();
+	pubsub_t* p = new pubsub_t;
 	struct sockaddr_un addr;
 
 	p->fd = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -67,4 +67,3 @@ int ddbus_open(void (*callback) (const char*)) {
 	return p->fd;
 }
 
-}

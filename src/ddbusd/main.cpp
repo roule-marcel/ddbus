@@ -14,11 +14,43 @@
 #include <errno.h>
 
 
+char (*get_my_ip_addresses())[32] {
+	static char _ips[15][32];
+	char ip[128];
+	FILE *fp = popen("my-ip-addr", "r");
+	if (fp == NULL) return NULL;
+
+	int i=0;
+	for (i=0; (fgets(ip, 128, fp) != NULL) && i < 14; i++) {
+		if(ip[strlen(ip)-1] == '\n') ip[strlen(ip)-1] = 0;
+		strcpy(_ips[i], ip);
+	}
+	_ips[i][0] = 0;
+
+
+	int status = pclose(fp);
+	return _ips;
+}
+
+static char (*my_ips)[32] = 0;
+bool is_my_ip(const char* ip) {
+	if(my_ips == 0) my_ips = get_my_ip_addresses();
+	for(int i=0; my_ips[i][0]!=0; i++) {
+		if(!strcmp(my_ips[i], ip)) return true;
+	}
+	return false;
+}
+
+
+///////
+
+
 void broadcast_local(const char* s, size_t len);
 void broadcast_remote(const char* s, size_t len);
 
 
 void process_network_message(const char* buf, const char* ip) {
+	if(is_my_ip(ip)) return;
 	char s[1024];
 	sprintf(s,"[%s] %s", ip, buf);
 	printf("%s", s);

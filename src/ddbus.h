@@ -9,7 +9,9 @@
 #define DDBUS_H_
 
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 /**
  * @param callback : a pointer to function that will be called upon incoming messages on the bus
@@ -18,6 +20,9 @@ extern "C" {
 int ddbus_open(void (*callback) (const char*));
 
 
+
+#ifdef __cplusplus
 }
+#endif
 
 #endif /* DDBUS_H_ */
