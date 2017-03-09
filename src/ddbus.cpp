@@ -63,7 +63,7 @@ int ddbus_open(void (*callback) (const char*)) {
 
 	if(connect (p->fd, (const struct sockaddr *) &addr, sizeof(struct sockaddr_un)) == -1) ERROR("Couldn't connect to /run/lock/ddbusd.sock\n");
 
-	pthread_create(&p->th, NULL, thread_read, p);
+	if(callback) pthread_create(&p->th, NULL, thread_read, p);
 	return p->fd;
 }
 
