@@ -2,14 +2,14 @@
 bus-like IPC with broadcast networking
 
 # How to build
-````
+````bash
 make
 sudo make install
 ````
 
 # Example
 
-````
+````c
 #include <ddbus.h>
 #include <stdio.h>
 #include <unistd.h>
