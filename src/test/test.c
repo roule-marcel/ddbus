@@ -10,17 +10,18 @@
 #include <unistd.h>
 #include <string.h>
 
-void cb(const char* msg) {
-	printf("%s\n", msg);
+void cb(const char* from, const char* msg) {
+	printf("%s : %s\n", from, msg);
 }
 
 int main(int argc, char **argv) {
 	char buf[1024];
+	if(argc<2) {fprintf(stderr, "Usage : %s <channel>", argv[0]); return -1; }
 
-	int fd = ddbus_open(cb);
+	int fd = ddbus_open(argv[1], cb);
 
 	while( fgets(buf, 1024 , stdin) ) {
-		write(fd, buf, strlen(buf));
+		ddbus_write(fd, buf);
 	}
 
 	return 0;

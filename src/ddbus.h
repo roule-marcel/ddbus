@@ -17,8 +17,10 @@ extern "C" {
  * @param callback : a pointer to function that will be called upon incoming messages on the bus
  * @return : A file descriptor to write on the bus
  * */
-int ddbus_open(void (*callback) (const char*));
+int ddbus_open(const char* channel, void (*callback) (const char* from, const char* msg));
 
+
+int ddbus_write(int fd, const char* msg);
 
 
 #ifdef __cplusplus
