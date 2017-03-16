@@ -43,8 +43,10 @@ void* thread_read(void* _p) {
 				line[i] = 0;
 				char* from = &line[1];
 				char* channel = strchr(from, ']'); *channel = 0; channel+=2;
-				char* msg = strchr(channel, ':'); *msg = 0; msg++;
-				if(!strcmp(channel, p->channel)) p->callback(from, msg);
+				if(*channel) {
+					char* msg = strchr(channel, ':'); *msg = 0; msg++;
+					if(!strcmp(channel, p->channel)) p->callback(from, msg);
+				}
 				i = 0;
 			}
 			else line[i++] = buf[j];
