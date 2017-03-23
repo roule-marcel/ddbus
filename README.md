@@ -34,6 +34,7 @@ int main(int argc, char **argv) {
 
 ````
 #### Setting the broadcast ip
+Optionally, you can set the broadcast address a specific bus will be forwarded to :
 ````c
 ...
 int fd = ddbus_open(bus_name, cb);
