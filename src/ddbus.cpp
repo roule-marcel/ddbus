@@ -63,11 +63,12 @@ int ddbus_write(int fd, const char* msg) {
 	char buf[strlen(msg)+5+strlen(buses[fd]->channel)];
 	sprintf(buf, "%s:%s", buses[fd]->channel, msg);
 	::write(fd, buf, strlen(buf));
+	fsync(fd);
 }
 
 
 int ddbus_open(const char* channel, void (*callback) (const char* from, const char* msg)) {
-	ddbusd_start();
+	// ddbusd_start();
 	ddbus_t* p = new ddbus_t;
 	struct sockaddr_un addr;
 
@@ -88,3 +89,7 @@ int ddbus_open(const char* channel, void (*callback) (const char* from, const ch
 	return p->fd;
 }
 
+void ddbus_set_broadcast_ip(int ddbus_fd, const char* ip) {
+	char buf[512]; sprintf(buf, "__BroadcastNetwork:%s\n", ip);
+	ddbus_write(ddbus_fd, buf);
+}

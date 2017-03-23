@@ -19,6 +19,7 @@ extern "C" {
  * */
 int ddbus_open(const char* channel, void (*callback) (const char* from, const char* msg));
 
+void ddbus_set_broadcast_ip(int fd, const char* ip);
 
 int ddbus_write(int fd, const char* msg);
 
