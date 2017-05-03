@@ -55,20 +55,16 @@ void* thread_read(void* _p) {
 	return 0;
 }
 
-static int ddbusd_start() {
-	system("ddbusd start >/dev/null 2>&1");
-}
-
 int ddbus_write(int fd, const char* msg) {
 	char buf[strlen(msg)+5+strlen(buses[fd]->channel)];
 	sprintf(buf, "%s:%s", buses[fd]->channel, msg);
-	::write(fd, buf, strlen(buf));
+	int res = ::write(fd, buf, strlen(buf));
 	fsync(fd);
+	return res;
 }
 
 
 int ddbus_open(const char* channel, void (*callback) (const char* from, const char* msg)) {
-	// ddbusd_start();
 	ddbus_t* p = new ddbus_t;
 	struct sockaddr_un addr;
 
