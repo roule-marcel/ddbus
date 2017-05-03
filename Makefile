@@ -4,19 +4,19 @@ OBJECTS:=$(SOURCES:src/%.cpp=bin/%.o)
 all: libddbus.so ddbusdd ddbus
 
 install:
-	ddbusd stop 2>/dev/null || echo 
+	service ddbusd stop || echo
 	cp my-ip-addr /usr/bin
 	cp ddbusdd /usr/bin
 	cp ddbusd /usr/bin
 	cp libddbus.so /usr/lib
 	cp ddbus /usr/bin
 	cp src/ddbus.h /usr/include
-	ddbusd start 
-	
+	cp ddbusd.service /etc/init.d/ddbusd
+
 
 libddbus.so: $(OBJECTS)
 	g++ -shared -o $@ $^
-	
+
 ddbus: bin/test/test.o
 	gcc -g  -o $@ $^ -pthread -lddbus -L.
 
@@ -32,9 +32,9 @@ bin/test/%.o: src/test/%.c
 bin/%.o: src/%.cpp
 	mkdir -p `dirname $@`
 	g++ -g -fPIC -o $@ -c $< -I./src
-	
+
 clean:
-	ddbusd stop 2>/dev/null || echo 
+	ddbusd stop 2>/dev/null || echo
 	rm -rf bin
 	rm -f *.so
 	rm -f ddbusdd
