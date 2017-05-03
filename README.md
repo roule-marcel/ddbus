@@ -33,3 +33,11 @@ int main(int argc, char **argv) {
 }
 
 ````
+#### Setting the broadcast ip
+Optionally, you can set the broadcast address a specific bus will be forwarded to :
+````c
+...
+int fd = ddbus_open(bus_name, cb);
+ddbus_set_broadcast_ip(fd, "172.17.255.255"); // All data put on bus 'bus_name' will be forwarded to broadcast address "172.17.255.255"
+...
+````
