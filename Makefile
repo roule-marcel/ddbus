@@ -34,7 +34,6 @@ bin/%.o: src/%.cpp
 	g++ -g -fPIC -o $@ -c $< -I./src
 
 clean:
-	ddbusd stop 2>/dev/null || echo
 	rm -rf bin
 	rm -f *.so
 	rm -f ddbusdd
