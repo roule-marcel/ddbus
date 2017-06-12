@@ -13,6 +13,7 @@ install:
 	cp src/ddbus.h /usr/include
 	cp ddbusd.service /etc/init.d/ddbusd
 	service ddbusd start
+	update-rc.d ddbusd defaults
 
 libddbus.so: $(OBJECTS)
 	g++ -shared -o $@ $^
