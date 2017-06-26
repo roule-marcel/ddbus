@@ -37,4 +37,5 @@ clean:
 	rm -rf bin
 	rm -f *.so
 	rm -f ddbusdd
+	rm -f ddbus
 	rm -f ddbus-test
