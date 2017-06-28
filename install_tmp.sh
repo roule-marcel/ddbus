@@ -19,6 +19,7 @@ fi
 mkdir -p build/usr/lib build/usr/bin build/usr/include build/etc/init.d/
 
 cp my-ip-addr build/usr/bin
+cp ddbusd build/usr/bin
 cp src/ddbus.h build/usr/include
 cp ddbusd.service build/etc/init.d/ddbusd
 cp -rf build/* $DST

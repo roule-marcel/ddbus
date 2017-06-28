@@ -1,0 +1,11 @@
+#!/bin/bash
+
+BROADCAST=$1
+if [ -z "$BROADCAST" ]; then
+	BROADCAST=`cat /etc/ddbus/broadcast 2>/dev/null`
+fi
+if [ -z "$BROADCAST" ]; then
+	BROADCAST=255.255.255.255
+fi
+
+exec `dirname $0`/ddbusdd $BROADCAST
