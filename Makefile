@@ -18,11 +18,11 @@ $(LIB)/libddbus.so: $(OBJECTS)
 
 $(BIN)/ddbus: bin/test/test.o
 	@mkdir -p $(BIN)
-	gcc -g  -o $@ $^ -pthread -lddbus -L.
+	gcc -g  -o $@ $^ -pthread -lddbus -L$(LIB)
 
 $(BIN)/ddbusdd: bin/ddbusd/main.o
 	@mkdir -p $(BIN)
-	g++ -g  -o $@ $^ -pthread -lddbus -L.
+	g++ -g  -o $@ $^ -pthread -lddbus -L$(LIB)
 
 
 bin/test/%.o: src/test/%.c
